@@ -1,0 +1,11 @@
+-> we don't need a dotenv pkg , next js take care of it.
+
+-> at each req , we re connect the database
+
+-> app/api folder use to write a routes.
+    -> PI routes in the app directory are placed inside their respective route folders and use route.js (or route.ts for TypeScript).
+
+    -> You must explicitly define GET, POST, PUT, DELETE functions.
+    -> app/api/hello/route.ts    -> if we visite "api/hello" than function inside route.ts will execute.
+
+->
