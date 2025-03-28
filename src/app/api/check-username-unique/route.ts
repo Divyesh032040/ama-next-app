@@ -12,6 +12,7 @@ import {usernameValidation} from "@/schemas/signUpSchema"
     });
 
     export async function GET(request: NextRequest) {
+    
     await dbConnect();
 
     try {
