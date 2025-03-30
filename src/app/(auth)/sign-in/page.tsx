@@ -1,14 +1,11 @@
-"use client"
-
 import React from 'react'
-
 
 function page() {
   return (
-    <div>page</div>
-  
-)
-
+    <div>
+      <h1>login page</h1>
+    </div>
+  )
 }
 
 export default page
