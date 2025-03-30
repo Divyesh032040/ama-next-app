@@ -38,7 +38,7 @@ const [isSubmitting, setIsSubmitting] = useState(false);
 
 const { toast } = useToast();
 
-
+// form default values
 const form = useForm<z.infer<typeof signupSchema>>({
     resolver: zodResolver(signupSchema),
     defaultValues: {
@@ -50,28 +50,6 @@ const form = useForm<z.infer<typeof signupSchema>>({
 
 
   //function to check username availability 
-
-    // useEffect(() => {
-    // const checkUsernameUnique = async () => {
-    //   // if (debouncedUsername.length === 0) return; 
-
-
-    // setIsCheckingUsername(true);
-    // setUsernameMessage('');
-
-    // try {
-    //     const response = await axios.get<ApiResponse>(`/api/check-username-unique?username=${username}`);
-    //     setUsernameMessage(response.data.message);
-    //     } catch (error) {
-    //         const axiosError = error as AxiosError<ApiResponse>;
-    //         setUsernameMessage(axiosError.response?.data.message ?? 'Error checking username');
-    //     } finally {
-    //         setIsCheckingUsername(false);
-    //     }
-    //     };
-    
-    //     checkUsernameUnique();
-    // }, [username]);
     
         useEffect(() => {
             const handler = setTimeout(async () => {
