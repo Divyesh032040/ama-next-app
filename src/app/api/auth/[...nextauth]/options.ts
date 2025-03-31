@@ -65,14 +65,14 @@
         }
         return token;
         },
-        async session({ session, token }) {
+        async session({ session, token }: { session: any; token: any }) {
           if (token) {
             session.user._id = token._id;
             session.user.isVerified = token.isVerified;
             session.user.isAcceptingMessages = token.isAcceptingMessages;
             session.user.username = token.username;
           }
-          console.log(session)
+     
           return session;
         },
           

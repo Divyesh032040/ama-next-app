@@ -2,8 +2,7 @@
 
 import { Toaster } from "@/components/ui/toaster"
 import AuthProvider from "@/context/AuthProviders";
-import '../../../src/globals.css'
-
+import '../globals.css'
 
 export const metadata = {
   title: 'Next.js',
@@ -17,10 +16,13 @@ export default function RootLayout({
 }) {
   return (
     <AuthProvider>
-      <html lang="en">
-          <body>{children}  
-            <Toaster /> </body>
-      </html>
+        <html lang="en">
+            <body>
+                
+                {children}  
+                <Toaster /> 
+            </body>
+        </html>
     </AuthProvider>   
   )
 }
