@@ -1,19 +1,20 @@
 
-
-import { NextRequest } from "next/server";
 import UserModel from '@/modal/User';
 import { getServerSession } from 'next-auth/next';
 import dbConnect from '@/lib/dbConnect';
 import { authOptions } from '@/app/api/auth/[...nextauth]/options';
-import { NextResponse } from "next/server";
+import { NextResponse  , NextRequest } from "next/server";
 
-interface RouteParams {
-  params: { messageid: string };
-}
 
-export async function DELETE( request: NextRequest ) {
+export async function DELETE(req: NextRequest,  context: { params: { messageid: string } }) {
 
-  const messageid = new URL(request.url).searchParams.get('messageid');
+
+        const params = await context.params;
+        console.log("Params received:", params); 
+        console.log("Params received:", params);
+
+        const messageid = params.messageid; 
+
   if(!messageid){
     return NextResponse.json({
       status:false,
