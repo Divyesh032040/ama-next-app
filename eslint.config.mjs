@@ -13,7 +13,9 @@ export default [
         project: "./tsconfig.json", // Ensures TypeScript support
       },
     },
-    plugins: ["@typescript-eslint"],
+    plugins: {
+      "@typescript-eslint": ts, // ✅ Plugins should be an object, NOT an array
+    },
     rules: {
       "no-unused-vars": "off",
       "@typescript-eslint/no-unused-vars": "error",
