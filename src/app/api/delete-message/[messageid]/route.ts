@@ -1,16 +1,14 @@
 
-
 import UserModel from '@/modal/User';
 import { getServerSession } from 'next-auth/next';
 import dbConnect from '@/lib/dbConnect';
 import { authOptions } from '@/app/api/auth/[...nextauth]/options';
 
 export async function DELETE(
-  request: Request,
-  { params }: { params: { messageid: string } }
-
+  request: Request, 
+  context: { params: { messageid: string } }
 ) {
-
+  const { params } = await context;
   const { messageid } = params;
 
   await dbConnect();
@@ -25,7 +23,6 @@ export async function DELETE(
   }
 
   try {
-    // ✅ Ensure the user object contains a valid ID  
     const userId = (session.user as { _id?: string; id?: string })._id || session.user.id;
 
     if (!userId) {
@@ -35,7 +32,7 @@ export async function DELETE(
       );
     }
 
-    // ✅ Ensure the user exists before updating  
+    // Ensure the user exists
     const existingUser = await UserModel.findById(userId);
     if (!existingUser) {
       return new Response(
@@ -44,7 +41,7 @@ export async function DELETE(
       );
     }
 
-    // ✅ Remove message using `$pull`
+    // Remove the message
     const updateResult = await UserModel.updateOne(
       { _id: userId },
       { $pull: { messages: { _id: messageid } } }
@@ -62,7 +59,7 @@ export async function DELETE(
       { status: 200, headers: { 'Content-Type': 'application/json' } }
     );
   } catch (error) {
-    console.error(`❌ Error deleting message for user ${session.user.email}:`, error);
+    console.error(`❌ Error deleting message:`, error);
 
     return new Response(
       JSON.stringify({ message: 'Internal Server Error', success: false }),
@@ -70,3 +67,4 @@ export async function DELETE(
     );
   }
 }
+
