@@ -1,47 +1,22 @@
-// import { dirname } from "path";
-// import { fileURLToPath } from "url";
-// import { FlatCompat } from "@eslint/eslintrc";
+import js from "@eslint/js";
+import next from "@next/eslint-plugin-next";
+import ts from "@typescript-eslint/eslint-plugin";
+import tsParser from "@typescript-eslint/parser";
 
-// const __filename = fileURLToPath(import.meta.url);
-// const __dirname = dirname(__filename);
-
-// const compat = new FlatCompat({
-//   baseDirectory: __dirname,
-// });
-
-// const eslintConfig = {
-//   rules: {
-//     // Note: you must disable the base rule as it can report incorrect errors
-//     "no-unused-vars": "off",
-//     "@typescript-eslint/no-unused-vars": "error"
-//   },
-//   ...compat.extends("next/core-web-vitals", "next/typescript"),
-// };
-
-// export default eslintConfig;
-
-
-import { dirname } from "path";
-import { fileURLToPath } from "url";
-import { FlatCompat } from "@eslint/eslintrc";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-});
-
-const eslintConfig = {
-  extends: [
-    ...compat.extends("next/core-web-vitals", "next/typescript")
-  ],
-  rules: {
-    // Note: you must disable the base rule as it can report incorrect errors
-    "no-unused-vars": "off",
-    "@typescript-eslint/no-unused-vars": "error"
-  }
-};
-
-export default eslintConfig;
-
+export default [
+  js.configs.recommended,
+  next.configs.recommended,
+  {
+    languageOptions: {
+      parser: tsParser,
+      parserOptions: {
+        project: "./tsconfig.json", // Ensures TypeScript support
+      },
+    },
+    plugins: ["@typescript-eslint"],
+    rules: {
+      "no-unused-vars": "off",
+      "@typescript-eslint/no-unused-vars": "error",
+    },
+  },
+];
