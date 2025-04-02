@@ -5,11 +5,12 @@ import dbConnect from '@/lib/dbConnect';
 import { authOptions } from '@/app/api/auth/[...nextauth]/options';
 
 export async function DELETE(
-  request: Request, 
-  context: { params: { messageid: string } }
+  request: Request,
+  context: { params: { messageid: string } } // ✅ Correct type
 ) {
-  const { params } = await context;
-  const { messageid } = params;
+  const { params } = context; // ✅ No need to await
+  const { messageid } = params; // ✅ Extract messageid
+
 
   await dbConnect();
 
