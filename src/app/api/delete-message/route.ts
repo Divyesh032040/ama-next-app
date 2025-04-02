@@ -6,14 +6,13 @@ import { authOptions } from '@/app/api/auth/[...nextauth]/options';
 import { NextResponse  , NextRequest } from "next/server";
 
 
-export async function DELETE(req: NextRequest,  context: { params: { messageid: string } }) {
+export async function DELETE(
+  req: NextRequest,
+) {
+  
+  const { searchParams } = new URL(req.url);
+  const messageid = searchParams.get("messageId"); // ✅ Extract from query params
 
-
-        const params = await context.params;
-        console.log("Params received:", params); 
-        console.log("Params received:", params);
-
-        const messageid = params.messageid; 
 
   if(!messageid){
     return NextResponse.json({

@@ -47,14 +47,16 @@ function MessageCard({message , onMessageDelete}: MessageCardProps) {
 
   const [isDeleteLoading , isSetDeleteLoading] = useState(false);
 
+  const messageId = message?._id;
+
     const {toast} = useToast()
     
     const handleDeleteConfirm = async () => {
         try {
             isSetDeleteLoading(true);
-            const response = await axios.delete<ApiResponse>(
-                `/api/delete-message/${message._id}`
-            );
+            const response = await axios.delete<ApiResponse>(`/api/delete-message`, {
+                params: { messageId },
+            });
             toast({
                 title: response.data.message,
             });
