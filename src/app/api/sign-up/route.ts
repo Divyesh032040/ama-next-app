@@ -4,6 +4,7 @@ import {sendVerificationEmail} from "@/helpers/sendVerificationEmail";
 import bcryptjs from "bcryptjs";
 import UserModel from "@/modal/User"
 import dbConnect from "@/lib/dbConnect";
+import mongoose from "mongoose"
 
 
 
@@ -49,6 +50,17 @@ export async function POST( request: Request){
             const expiryDate = new Date();
             expiryDate.setHours(expiryDate.getHours() + 1);
 
+            // const newUser = new UserModel({
+            //     username,
+            //     email,
+            //     password: hashedPassword,
+            //     verifyCode,
+            //     verifyCodeExpiry: expiryDate,
+            //     isVerified: false,
+            //     isAcceptingMessages: true,
+            //     messages: [],
+            // });
+
             const newUser = new UserModel({
                 username,
                 email,
@@ -57,8 +69,12 @@ export async function POST( request: Request){
                 verifyCodeExpiry: expiryDate,
                 isVerified: false,
                 isAcceptingMessages: true,
-                messages: [],
-            });
+                messages: [
+                  { _id: new mongoose.Types.ObjectId(), content: "What's your favorite movie?", createdAt: new Date() },
+                  { _id: new mongoose.Types.ObjectId(), content: "Do you have any pets?", createdAt: new Date() },
+                  { _id: new mongoose.Types.ObjectId(), content: "What's your dream job?", createdAt: new Date() }
+                ],
+              });
             await newUser.save();
         }
     
@@ -88,12 +104,6 @@ export async function POST( request: Request){
             message:"Error while registering user"
         },{status:500})
     }
-
-
-
-
-
-
-
-
 }
+
+

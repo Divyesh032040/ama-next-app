@@ -5,16 +5,15 @@ import UserModel from "@/modal/User";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { usernameValidation } from "@/schemas/signUpSchema";
-import getServerSession from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/options";
-import { Session } from "next-auth";
+import { getServerSession, Session } from 'next-auth';
 
 export async function POST(request: NextRequest) {
   
   await dbConnect();
 
   
-  const session = (await getServerSession(authOptions)) as unknown as Session | null;
+ const session = (await getServerSession(authOptions)) as unknown as Session | null;
 
   if (!session || !session.user) {
     return NextResponse.json(
@@ -54,7 +53,7 @@ export async function POST(request: NextRequest) {
         message: "Message acceptance status updated successfully",
         updatedUser,
       },
-      { status: 200 }
+      { status: 200 } 
     );
   } catch (error) {
     console.error("Error updating message acceptance status:", error);
@@ -72,7 +71,7 @@ export async function GET(request: NextRequest) {
   await dbConnect();
 
   // Get the user session
-  const session = (await getServerSession(authOptions) as unknown as Session | null);
+  const session = await getServerSession(authOptions);
   const user = session?.user;
 
   // Check if the user is authenticated

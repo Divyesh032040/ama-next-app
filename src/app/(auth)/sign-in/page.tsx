@@ -1,3 +1,4 @@
+
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -15,14 +16,13 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useToast } from "@/hooks/use-toast"
+import { useToast } from "@/hooks/use-toast";
 import { signInSchema } from '@/schemas/signInSchema';
-import { Loader2 } from 'lucide-react';
-import {useState} from "react"
-
+import { Loader2, Home } from 'lucide-react';
+import { useState } from "react";
 
 export default function SignInForm() {
-  const [isSubmitting , setIsSubmitting] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
 
   const form = useForm<z.infer<typeof signInSchema>>({
@@ -34,8 +34,9 @@ export default function SignInForm() {
   });
 
   const { toast } = useToast();
+
   const onSubmit = async (data: z.infer<typeof signInSchema>) => {
-    setIsSubmitting(true)
+    setIsSubmitting(true);
     const result = await signIn('credentials', {
       redirect: false,
       identifier: data.identifier,
@@ -43,31 +44,29 @@ export default function SignInForm() {
     });
 
     if (result?.error) {
-      if (result.error === 'CredentialsSignin') {
-        toast({
-          title: 'Login Failed',
-          description: 'Incorrect username or password',
-          variant: 'destructive',
-        });
-      } else {
-        toast({
-          title: 'Error',
-          description: result.error,
-          variant: 'destructive',
-        });
-      }
+      toast({
+        title: 'Login Failed',
+        description: 'Incorrect username or password',
+        variant: 'destructive',
+      });
     }
-    
+
     if (result?.url) {
       router.replace('/dashboard');
     }
+
+    setIsSubmitting(false);
   };
 
   return (
-    // <div className="flex justify-center items-center min-h-screen bg-gray-800">
-    //   <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md">
-    <div className="flex justify-center items-center h-screen bg-gray-800 p-4">
-    <div className="w-full max-w-sm p-6 space-y-6 bg-white rounded-lg shadow-md">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-800 p-4">
+      {/* 🔥 Home Button */}
+      <Link href="/" className="absolute top-6 left-6">
+        <Home className="h-8 w-8 text-white hover:text-gray-300 transition-all duration-300 cursor-pointer" />
+      </Link>
+
+      {/* Sign-in Card */}
+      <div className="w-full max-w-sm p-6 space-y-6 bg-white rounded-lg shadow-md">
         <div className="text-center">
           <h1 className="text-4xl font-extrabold tracking-tight lg:text-4xl mb-6">
             Welcome Back to True Feedback
@@ -98,17 +97,15 @@ export default function SignInForm() {
                 </FormItem>
               )}
             />
-            <Button className='w-full' type="submit">
-              
+            <Button className='w-full' type="submit" disabled={isSubmitting}>
               {isSubmitting ? (
-                    <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Please wait
-                    </>
-                ) : (
-                    'Sign Up'
-                )}
-
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Please wait
+                </>
+              ) : (
+                'Sign In'
+              )}
             </Button>
           </form>
         </Form>
@@ -124,4 +121,3 @@ export default function SignInForm() {
     </div>
   );
 }
-

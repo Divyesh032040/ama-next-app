@@ -1,91 +1,178 @@
-    /* eslint-disable @typescript-eslint/no-explicit-any */
-    import NextAuth from "next-auth";
-    import Credentials from "next-auth/providers/credentials";
-    import bcrypt from "bcryptjs";
-    import dbConnect from "@/lib/dbConnect";
-    import UserModel from "@/modal/User";
+/* eslint-disable @typescript-eslint/no-unused-vars */
+    // /* eslint-disable @typescript-eslint/no-explicit-any */
+    // import NextAuth, { AuthOptions } from "next-auth";
+    // import Credentials from "next-auth/providers/credentials";
+    // import bcrypt from "bcryptjs";
+    // import dbConnect from "@/lib/dbConnect";
+    // import UserModel from "@/modal/User";
 
-    export const authOptions = {
-    providers: [
+    // export const authOptions = {
+    // providers: [
 
-        Credentials({
+    //     Credentials({
 
-        credentials: {
-            identifier: { label: "Email or Username", type: "text" },
-            password: { label: "Password", type: "password" },
-        },
+    //     credentials: {
+    //         identifier: { label: "Email or Username", type: "text" },
+    //         password: { label: "Password", type: "password" },
+    //     },
 
-        async authorize(credentials): Promise<any> {
-            await dbConnect();
+    //     async authorize(credentials): Promise<any> {
+    //         await dbConnect();
           
-            try {
-              const dbUser = await UserModel.findOne({
-                $or: [{ email: credentials.identifier }, { username: credentials.identifier }],
-              });
+    //         try {
+    //           const dbUser = await UserModel.findOne({
+    //             $or: [{ email: credentials?.identifier ?? "" }, { username: credentials?.identifier ?? "" }],
+    //           });
           
-              if (!dbUser) {
-                throw new Error("No user found with this Email or Username");
-              }
+    //           if (!dbUser) {
+    //             throw new Error("No user found with this Email or Username");
+    //           }
           
-              if (!dbUser.isVerified) {
-                throw new Error("Please verify your email before logging in");
-              }
+    //           if (!dbUser.isVerified) {
+    //             throw new Error("Please verify your email before logging in");
+    //           }
           
-              const isPasswordCorrect = await bcrypt.compare(
-                String(credentials.password),
-                String(dbUser.password)
-              );
+    //           const isPasswordCorrect = await bcrypt.compare(
+    //             String(credentials?.password ?? ""),
+    //             String(dbUser.password)
+    //           );
           
-              if (!isPasswordCorrect) {
-                throw new Error("Incorrect password");
-              }
+    //           if (!isPasswordCorrect) {
+    //             throw new Error("Incorrect password");
+    //           }
           
-              const user = {
-                _id: dbUser._id?.toString(),
-                username: dbUser.username,
-                email: dbUser.email,
-                isVerified: dbUser.isVerified,
-              }
-              return user// Return a plain object instead of Mongoose document
+    //           const user = {
+    //             _id: dbUser._id?.toString(),
+    //             username: dbUser.username,
+    //             email: dbUser.email,
+    //             isVerified: dbUser.isVerified,
+    //           }
+    //           return user// Return a plain object instead of Mongoose document
           
-            } catch (err) {
-              console.error("Authorize Error:", err);
-              throw new Error("Authentication failed");
-            }
-          }
-        }),
-    ],
+    //         } catch (err) {
+    //           console.error("Authorize Error:", err);
+    //           throw new Error("Authentication failed");
+    //         }
+    //       }
+    //     }),
+    // ],
 
-    callbacks: {
-        async jwt({ token, user }: { token: any; user: any }) {
-        if (user) {
-            token._id = user._id.toString();
-            token.isVerified = user.isVerified;
-            token.username = user.username;
-        }
-        return token;
-        },
-        async session({ session, token }: { session: any; token: any }) {
-          if (token) {
-            session.user._id = token._id;
-            session.user.isVerified = token.isVerified;
-            session.user.isAcceptingMessages = token.isAcceptingMessages;
-            session.user.username = token.username;
-          }
+    // callbacks: {
+    //     async jwt({ token, user }: { token: any; user: any }) {
+    //     if (user) {
+    //         token._id = user._id.toString();
+    //         token.isVerified = user.isVerified;
+    //         token.username = user.username;
+    //     }
+    //     return token;
+    //     },
+    //     async session({ session, token }: { session: any; token: any }) {
+    //       if (token) {
+    //         session.user._id = token._id;
+    //         session.user.isVerified = token.isVerified;
+    //         session.user.isAcceptingMessages = token.isAcceptingMessages;
+    //         session.user.username = token.username;
+    //       }
      
-          return session;
-        },
+    //       return session;
+    //     },
           
-    },
-    session: {
-        strategy: "jwt",
-    },
-    secret: process.env.NEXTAUTH_SECRET,
-    pages: {
-        signIn: "/sign-up",
-    },
-    } satisfies Parameters<typeof NextAuth>[0]; 
+    // },
+    // session: {
+    //   strategy: "jwt" as SessionStrategy, // Ensure this matches the expected 'SessionStrategy' type
+    // },
+    // secret: process.env.NEXTAUTH_SECRET,
+    // pages: {
+    //     signIn: "/sign-up",
+    // },
+    // } satisfies Parameters<typeof NextAuth>[0]; 
 
+
+
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import NextAuth, { AuthOptions } from "next-auth";
+import Credentials from "next-auth/providers/credentials";
+import bcrypt from "bcryptjs";
+import dbConnect from "@/lib/dbConnect";
+import UserModel from "@/modal/User";
+
+export const authOptions: AuthOptions = {
+  providers: [
+    Credentials({
+      credentials: {
+        identifier: { label: "Email or Username", type: "text" },
+        password: { label: "Password", type: "password" },
+      },
+      async authorize(credentials): Promise<any> {
+        await dbConnect();
+
+        try {
+          const dbUser = await UserModel.findOne({
+            $or: [
+              { email: credentials?.identifier ?? "" },
+              { username: credentials?.identifier ?? "" },
+            ],
+          });
+
+          if (!dbUser) {
+            throw new Error("No user found with this Email or Username");
+          }
+
+          if (!dbUser.isVerified) {
+            throw new Error("Please verify your email before logging in");
+          }
+
+          const isPasswordCorrect = await bcrypt.compare(
+            String(credentials?.password ?? ""),
+            String(dbUser.password)
+          );
+
+          if (!isPasswordCorrect) {
+            throw new Error("Incorrect password");
+          }
+
+          return {
+            _id: dbUser._id?.toString(),
+            username: dbUser.username,
+            email: dbUser.email,
+            isVerified: dbUser.isVerified,
+          };
+        } catch (err) {
+          console.error("Authorize Error:", err);
+          throw new Error("Authentication failed");
+        }
+      },
+    }),
+  ],
+
+  callbacks: {
+    async jwt({ token, user }: { token: any; user: any }) {
+      if (user) {
+        token._id = user._id.toString();
+        token.isVerified = user.isVerified;
+        token.username = user.username;
+      }
+      return token;
+    },
+    async session({ session, token }: { session: any; token: any }) {
+      if (token) {
+        session.user._id = token._id;
+        session.user.isVerified = token.isVerified;
+        session.user.isAcceptingMessages = token.isAcceptingMessages;
+        session.user.username = token.username;
+      }
+      return session;
+    },
+  },
+
+  session: {
+    strategy: "jwt", // ✅ Fixed type error
+  },
+  secret: process.env.NEXTAUTH_SECRET,
+  pages: {
+    signIn: "/sign-up",
+  },
+};
 
 
 

@@ -19,7 +19,7 @@ import {
 } from '@/components/ui/form';
 import axios, { AxiosError } from 'axios';
 import { Input } from '@/components/ui/input';
-import { Loader2 } from 'lucide-react';
+import { Home, Loader2 } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast"
 import { signupSchema } from '@/schemas/signUpSchema';
 
@@ -96,6 +96,12 @@ const form = useForm<z.infer<typeof signupSchema>>({
     
 
     return (
+
+    <div>
+
+     <Link href="/" className="absolute top-6 left-6">
+            <Home className="h-8 w-8 text-white hover:text-gray-300 transition-all duration-300 cursor-pointer" />
+    </Link>
 
     <div className="flex justify-center items-center h-screen bg-gray-800 p-4">
     <div className="w-full max-w-sm p-6 space-y-6 bg-white rounded-lg shadow-md">
@@ -179,6 +185,7 @@ const form = useForm<z.infer<typeof signupSchema>>({
             </Link>
         </p>
         </div>
+    </div>
     </div>
     </div>
     );

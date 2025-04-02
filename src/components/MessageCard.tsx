@@ -2,11 +2,15 @@
 import {
     Card,
     CardContent,
-    CardDescription,
+    // CardDescription,
     // CardFooter,
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
+
+import { Loader2 } from "lucide-react";
+
+import dayjs from 'dayjs';
 
 import {
     AlertDialog,
@@ -20,12 +24,18 @@ import {
     AlertDialogTrigger,
   } from "@/components/ui/alert-dialog"
 
-  import { Button } from './ui/button';
+import { Button } from './ui/button';
+
 import { X } from "lucide-react";
-import { Message } from "postcss";
+
+import { Message } from "@/modal/User";
+
 import { useToast } from "@/hooks/use-toast";
+
 import axios, { AxiosError } from "axios";
+
 import { ApiResponse } from "@/types/ApiResponse";
+import { useState } from "react";
 
 
 type MessageCardProps = {
@@ -37,10 +47,13 @@ type MessageCardProps = {
 
 function MessageCard({message , onMessageDelete}: MessageCardProps) {
 
+  const [isDeleteLoading , isSetDeleteLoading] = useState(false);
+
     const {toast} = useToast()
     
     const handleDeleteConfirm = async () => {
         try {
+            isSetDeleteLoading(true);
             const response = await axios.delete<ApiResponse>(
                 `/api/delete-message/${message._id}`
             );
@@ -48,6 +61,7 @@ function MessageCard({message , onMessageDelete}: MessageCardProps) {
                 title: response.data.message,
             });
             onMessageDelete(message._id);
+            isSetDeleteLoading(false);
         
             } catch (error) {
             const axiosError = error as AxiosError<ApiResponse>;
@@ -62,14 +76,16 @@ function MessageCard({message , onMessageDelete}: MessageCardProps) {
 
     return (
     <div>
-         <Card className="card-bordered">
+      <Card className="card-bordered">
       <CardHeader>
         <div className="flex justify-between items-center">
           <CardTitle>{message.content}</CardTitle>
           <AlertDialog>
             <AlertDialogTrigger asChild>
               <Button variant='destructive'>
-                <X className="w-5 h-5" />
+                {isDeleteLoading ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (<X className="w-5 h-5" />)}
               </Button>
             </AlertDialogTrigger>
             <AlertDialogContent>
