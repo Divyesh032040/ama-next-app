@@ -66,6 +66,28 @@ This is a Next.js (App Router) project built with TypeScript that enables users 
 
 ---
 
+## 🖼️ Project Screenshots
+### 📌 Homepage View
+![Homepage](https://github.com/user-attachments/assets/34712b95-335f-4396-82ec-fb656964a0c5)
+
+---
+### 📌 SignIn Page
+![Sign-In Page](https://github.com/user-attachments/assets/a667a00e-55b8-49d5-b05f-62d15bbdc577)
+
+---
+### 📌 Signup Page
+![Sign-Up Page](https://github.com/user-attachments/assets/9da71614-e3c2-4f6f-9e66-f46fd941349d)
+
+---
+### 📌 Dashboard Page
+![Dashboard Page](https://github.com/user-attachments/assets/46f3f2f4-a7eb-4142-9617-1064a9a15669)
+
+---
+### 📌 Public Profile Page
+![Public Link Page](https://github.com/user-attachments/assets/305bc257-0b2b-46ef-9df0-21be8c2598f9)
+
+---
+
 ## 📂 Project Structure
 ```
 📦 project-root
@@ -155,27 +177,6 @@ This project is open-source and available under the [MIT License](LICENSE).
 
 ---
 
-## 🖼️ Project Screenshots
-### 📌 Homepage View
-![Homepage](https://github.com/user-attachments/assets/34712b95-335f-4396-82ec-fb656964a0c5)
-
----
-### 📌 SignIn Page
-![Sign-In Page](https://github.com/user-attachments/assets/a667a00e-55b8-49d5-b05f-62d15bbdc577)
-
----
-### 📌 Signup Page
-![Sign-Up Page](https://github.com/user-attachments/assets/9da71614-e3c2-4f6f-9e66-f46fd941349d)
-
----
-### 📌 Dashboard Page
-![Dashboard Page](https://github.com/user-attachments/assets/46f3f2f4-a7eb-4142-9617-1064a9a15669)
-
----
-### 📌 Public Profile Page
-![Public Link Page](https://github.com/user-attachments/assets/305bc257-0b2b-46ef-9df0-21be8c2598f9)
-
----
 
 ⭐ **Like the project? Give it a star on GitHub!** 🚀
 
